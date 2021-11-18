@@ -1,36 +1,36 @@
-char input;
- 
-void setup() {
-pinMode(13,OUTPUT);   //left motors forward
-pinMode(12,OUTPUT);   //left motors reverse
-pinMode(11,OUTPUT);   //right motors forward
-pinMode(10,OUTPUT);   //right motors reverse
-Serial.begin(9600);
- 
+void setup() 
+{
+pinMode(13,OUTPUT);   //left motors forward Declaration
+pinMode(12,OUTPUT);   //left motors reverse Declaration
+pinMode(11,OUTPUT);   //right motors forward Declaration
+pinMode(10,OUTPUT);   //right Reverse Declaration
+Serial.begin(9600); //BAUD RATE SET
 }
- 
+
+char input;
+
 void loop() {
 if(Serial.available()){
   input = Serial.read();
   Serial.println(input);
 }
  
-if(input == 'F'){            //move forward(all motors rotate in forward direction)
+if(input == 'F'){           //move forward
   digitalWrite(13,HIGH);
   digitalWrite(11,HIGH);
 }
  
-else if(input == 'B'){      //move reverse (all motors rotate in reverse direction)
+else if(input == 'B'){      //move reverse
   digitalWrite(12,HIGH);
   digitalWrite(10,HIGH);
 }
  
-else if(input == 'L'){      //turn right (left side motors rotate in forward direction, right side motors rotates reverse)
+else if(input == 'L'){      //turn right
   digitalWrite(11,HIGH);
   digitalWrite(12,HIGH);
 }
  
-else if(input == 'R'){      //turn left (right side motors rotate in forward direction, left side motors rotates reverse)
+else if(input == 'R'){      //turn left
   digitalWrite(13,HIGH);
   pinMode(10,OUTPUT); 
 }
