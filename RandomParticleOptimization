@@ -1,45 +1,107 @@
+//Header starts here......
+#include<NewPing.h>
+NewPing sonar(8,9,100);//function(echopin,trigpin,maxrange)
 void setup() 
 {
+Serial.begin(9600); //BAUD RATE SET
 pinMode(13,OUTPUT);   //left motors forward Declaration
 pinMode(12,OUTPUT);   //left motors reverse Declaration
 pinMode(11,OUTPUT);   //right motors forward Declaration
 pinMode(10,OUTPUT);   //right Reverse Declaration
-Serial.begin(9600); //BAUD RATE SET
 }
+//Header ends here........
+//
+//
+//
+//
+//
 
 char input;
+int dist;
+void loop() 
+{
+obstacle_detect();
+if(dist>0 && dist<=50)
+  khalja();
+else
+  car_control();
+}
 
-void loop() {
+//
+//
+//
+//
+//
+
+
+void obstacle_detect()//Obstacle detection for the car
+{
+Serial.print("Distance: ");
+dist=sonar.ping_cm();
+Serial.println(dist);
+}
+
+
+void car_control()//Function Controls the car movement
+{
 if(Serial.available()){
   input = Serial.read();
   Serial.println(input);
 }
  
-if(input == 'F'){           //move forward
+if(input == 'F')           //move forward
+  seedha();
+ 
+else if(input == 'B')     //move reverse
+  pichay();
+ 
+else if(input == 'R')      //turn right
+  sajay();
+ 
+else if(input == 'L')      //turn left
+  khabay();
+ 
+else if(input == 'S')     //STOP (all motors stop)
+  khalja();
+  
+else
+  khalja();
+}
+
+
+//Car Directions/controls Function starts here....
+void seedha()
+{
   digitalWrite(13,HIGH);
   digitalWrite(11,HIGH);
 }
- 
-else if(input == 'B'){      //move reverse
+void pichay()
+{
   digitalWrite(12,HIGH);
   digitalWrite(10,HIGH);
 }
- 
-else if(input == 'L'){      //turn right
+void sajay()
+{
   digitalWrite(11,HIGH);
   digitalWrite(12,HIGH);
 }
- 
-else if(input == 'R'){      //turn left
+void khabay()
+{
   digitalWrite(13,HIGH);
-  pinMode(10,OUTPUT); 
+  digitalWrite(10,HIGH); 
 }
- 
-else if(input == 'S'){      //STOP (all motors stop)
+void khalja()
+{
   digitalWrite(13,LOW);
   digitalWrite(12,LOW);
   digitalWrite(11,LOW);
   digitalWrite(10,LOW);
 }
-delay(100);
+//Car Direction/control ends here....
+
+
+void RPO()
+{
+  
+  
 }
