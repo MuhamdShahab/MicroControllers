@@ -8,7 +8,7 @@
 const byte interruptPin1 = IR6;
 
 const int voltageSensor = A0; //Voltage sensor PIN
-const int currentSensor = A1; //Current sensor PIN\
+const int currentSensor = A1; //Current sensor PIN
 
 const int rs = 6, en = 5, d4 = 33, d5 = 35, d6 = 37, d7 = 39;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
