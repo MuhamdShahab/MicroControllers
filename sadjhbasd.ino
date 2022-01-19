@@ -10,12 +10,6 @@ pinMode(10,OUTPUT);   //right motors reverse
  
 void loop() {
  Serial.begin(9600);
-  while(1)
-  {
-    Serial.println(Serial.available());
-    t=Serial.read();
-    // Serial.println(t);
-  }
 if(Serial.available()){
   t=Serial.read();
   Serial.println(t);
