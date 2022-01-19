@@ -1,4 +1,5 @@
-//3 ULTRASONIC SNESOR OBSTACLE AVOIDER CODE Shahab
+//Reach at https://www.linkedin.com/in/muhammad-shahab-2773a61a5/
+//Github https://github.com/MuhamdShahab/
 #include <NewPing.h>
 
 #define F_TRIGGER_PIN  13  // Arduino pin tied to trigger pin on the ultrasonic sensor.
