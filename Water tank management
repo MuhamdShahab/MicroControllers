@@ -1,0 +1,43 @@
+float tank_height=100; //enter tank hieght in CMs
+float offset=0;
+
+#include <NewPing.h>
+#define TRIGGER_PIN_F 9
+#define ECHO_PIN_F 8
+float MAX_DISTANCE=tank_height+offset; // increase this to level where you are placing ultrasonic sensorabove tank upper lvel/
+
+float level()
+{
+  NewPing sonar(TRIGGER_PIN_F, ECHO_PIN_F, MAX_DISTANCE);
+  float distance_F = sonar.ping_cm();
+   //Serial.print(distance_F);
+   //Serial.println("cm");
+   //return distance_F;
+   float percent=tank_height-distance_F-offset;
+   percent*=100;
+   percent/=tank_height;
+   Serial.print(percent);
+   Serial.println("%");
+   
+  }
+ 
+float filled(float h_level, int percent)
+{
+  float temp=h_level*percent;
+  temp=temp/100;
+  return temp;
+}
+
+void setup()
+{
+  Serial.begin(9600);
+}
+
+
+void loop()
+{
+  level();
+  }
+
+
+  
