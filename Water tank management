@@ -1,5 +1,5 @@
 float tank_height=100; //enter tank hieght in CMs
-float offset=0;
+float offset=0;//offset CMs from tank
 
 #include <NewPing.h>
 #define TRIGGER_PIN_F 9
@@ -8,25 +8,23 @@ float MAX_DISTANCE=tank_height+offset; // increase this to level where you are p
 
 float level()
 {
+  float distance_F=0;
   NewPing sonar(TRIGGER_PIN_F, ECHO_PIN_F, MAX_DISTANCE);
-  float distance_F = sonar.ping_cm();
-   //Serial.print(distance_F);
-   //Serial.println("cm");
-   //return distance_F;
+  for(int avg=0;avg<=10;avg++)
+    distance_F += sonar.ping_cm();
+  distance_F/=10;
+   if(distance_F>=0)
+   {
    float percent=tank_height-distance_F-offset;
    percent*=100;
    percent/=tank_height;
    Serial.print(percent);
    Serial.println("%");
-   
+   }
+   else
+    level();
   }
- 
-float filled(float h_level, int percent)
-{
-  float temp=h_level*percent;
-  temp=temp/100;
-  return temp;
-}
+
 
 void setup()
 {
