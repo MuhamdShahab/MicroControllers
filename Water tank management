@@ -4,6 +4,8 @@ int check=0;
 void setup() 
 {
   Serial.begin(9600);
+  pinMode(8,OUTPUT);
+  //use other pin as ground.
 }
 
 class water_level
@@ -62,7 +64,6 @@ if(up>=90)
  {
     check=0;
     digitalWrite(8, LOW);
-    digitalWrite(9,LOW);
     Serial.println("MOTOR OFF");
  }
 else if(check==1 && up<=90 && up>=30)
@@ -70,13 +71,11 @@ else if(check==1 && up<=90 && up>=30)
     if(low>=10)
     {
    digitalWrite(8, HIGH);
-   digitalWrite(9,LOW);
   Serial.println("MOTOR ON");
     }
     else
     {
    digitalWrite(8, LOW);
-   digitalWrite(9,LOW);
   Serial.println("MOTOR OFF");
     }
     
@@ -86,13 +85,11 @@ else if(check==1 && up<=90 && up>=30)
     if(low>=10)
     {
    digitalWrite(8, HIGH);
-   digitalWrite(9,LOW);
   Serial.println("MOTOR ON");
     }
     else
     {
    digitalWrite(8, LOW);
-     digitalWrite(9,LOW);
  Serial.println("MOTOR OFF");
     }
     check=1;
@@ -100,7 +97,6 @@ else if(check==1 && up<=90 && up>=30)
  else
  {
     digitalWrite(8, LOW);
-    digitalWrite(9,LOW);
     Serial.println("MOTOR OFF");
  }
 }
