@@ -1,41 +1,106 @@
-float tank_height=100; //enter tank hieght in CMs
-float offset=0;//offset CMs from tank
-
 #include <NewPing.h>
-#define TRIGGER_PIN_F 9
-#define ECHO_PIN_F 8
-float MAX_DISTANCE=tank_height+offset; // increase this to level where you are placing ultrasonic sensorabove tank upper lvel/
+int check=0;
 
-float level()
-{
-  float distance_F=0;
-  NewPing sonar(TRIGGER_PIN_F, ECHO_PIN_F, MAX_DISTANCE);
-  for(int avg=0;avg<=10;avg++)
-    distance_F += sonar.ping_cm();
-  distance_F/=10;
-   if(distance_F>=0)
-   {
-   float percent=tank_height-distance_F-offset;
-   percent*=100;
-   percent/=tank_height;
-   Serial.print(percent);
-   Serial.println("%");
-   }
-   else
-    level();
-  }
-
-
-void setup()
+void setup() 
 {
   Serial.begin(9600);
 }
 
-
-void loop()
+class water_level
 {
-  level();
-  }
+  private:
+    float avg;
+    float percentlevel;
+  public:
+    water_level(int TPIN,int EPIN,float UMAX) // Constructor declaration
+    {
+      avg=0;
+      NewPing sonar(TPIN, EPIN, UMAX);
+      for(int i=0; i<=10;i++)
+      {
+       float temp= sonar.ping_cm();
+       while(temp<=1)
+          temp= sonar.ping_cm();
+       avg+=temp;
+      }
+       avg/=10;
+    }
+    float getavg()
+    {
+      return avg;
+    }
+    float getpercentlevel(float tank,float off)
+    {
+      float percent=tank-getavg()-off;
+      percent*=100;
+      percent/=tank;
+      return percent;
+    }
+};
+
+void loop() 
+{
+  //for reservior-->ground wala
+  water_level ground=water_level(3,2,200);//Trigpin, Echopin,Max distance
+  float low=ground.getpercentlevel(200,0);
+  Serial.println(low);//tank height, offset from top
 
 
+  //for roof tanks create more objects in case of mutiple tanks
+  //water_level roof1=water_level(5,4,200);//Trigpin, Echopin,Max distance
+  //float up=roof1.getpercentlevel(200,0);
+  //Serial.println(up);//tank height, offset from top
   
+  //motor(up,low);
+}
+
+
+
+void motor(float up, float low)
+{
+if(up>=90)
+ {
+    check=0;
+    digitalWrite(8, LOW);
+    digitalWrite(9,LOW);
+    Serial.println("MOTOR OFF");
+ }
+else if(check==1 && up<=90 && up>=30)
+ {
+    if(low>=10)
+    {
+   digitalWrite(8, HIGH);
+   digitalWrite(9,LOW);
+  Serial.println("MOTOR ON");
+    }
+    else
+    {
+   digitalWrite(8, LOW);
+   digitalWrite(9,LOW);
+  Serial.println("MOTOR OFF");
+    }
+    
+ }
+ else if(up<=30)
+ {
+    if(low>=10)
+    {
+   digitalWrite(8, HIGH);
+   digitalWrite(9,LOW);
+  Serial.println("MOTOR ON");
+    }
+    else
+    {
+   digitalWrite(8, LOW);
+     digitalWrite(9,LOW);
+ Serial.println("MOTOR OFF");
+    }
+    check=1;
+ }
+ else
+ {
+    digitalWrite(8, LOW);
+    digitalWrite(9,LOW);
+    Serial.println("MOTOR OFF");
+ }
+}
